@@ -1,6 +1,6 @@
 package com.github.izbay.siegeengine;
 
-import org.bukkit.Bukkit;
+//import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,10 +11,12 @@ import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.util.Vector;
 
 import com.github.izbay.regengine.RegEnginePlugin;
+import com.github.izbay.util.Util;
 
 public class WeaponListener implements Listener {
 
-	RegEnginePlugin reg = (RegEnginePlugin)Bukkit.getServer().getPluginManager().getPlugin("RegEngine");
+	// You can access the R.E.Plugin singleton as a singleton now like this. --JJ-S
+	RegEnginePlugin reg = RegEnginePlugin.getInstance(); //(RegEnginePlugin)Bukkit.getServer().getPluginManager().getPlugin("RegEngine");
 	
 	@EventHandler
 	private void collideHandler(VehicleBlockCollisionEvent e){
@@ -23,12 +25,18 @@ public class WeaponListener implements Listener {
 			Location v = e.getVehicle().getLocation();
 			Location upLoc = e.getBlock().getLocation().add(0,1,0);
 			if(v.getBlock().getType().isSolid()){
-				e.getVehicle().teleport(v.add(0,1,0));
+				e.getVehicle().teleport(Util.add(v,0,1,0));
+				// This is the insidious use of Location.add() which modifies its caller:
+//				e.getVehicle().teleport(v.add(0,1,0));
 			}
 			if(e.getBlock().getLocation().getBlock().getType().isSolid()){
 				if(!upLoc.getBlock().getType().isSolid()){
-					reg.alter(v, Material.RAILS);
-					reg.alter(upLoc, Material.RAILS);
+					if(reg.clojureRegen) {
+						reg.batchAlterRestore(new Location[] {v,upLoc}, Material.RAILS, v.getWorld());
+					} else {
+						reg.alter(v, Material.RAILS);
+						reg.alter(upLoc, Material.RAILS);
+					}// else
 				} else {
 					Double yaw = Weapon.toRadians(v.getYaw());
 					int sin = (int) Math.round(Math.sin(yaw));
