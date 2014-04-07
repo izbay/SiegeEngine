@@ -20,6 +20,10 @@ import org.bukkit.util.Vector;
  */
 public class Util 
 {
+		public static double toRadians(double yaw){
+			return (270-yaw) * Math.PI / 180;
+		}
+		
 		public static BlockVector getBlockVector(final Location l) {
 			return new BlockVector((int) l.getX(), (int) l.getY(),
 					(int) l.getZ());
