@@ -82,7 +82,10 @@ public class Util
 
 		public static Location getLocation(final Block b)
 		{ 	return b.getLocation(); }
-
+		
+		public static Location normalizeLocation(final Location l)
+		{	return new Location(l.getWorld(), Math.round(l.getX()), Math.round(l.getY()), Math.round(l.getZ()));}
+		
 		/**
 		 * Non-mutating Vector addition.
 		 * @return 
@@ -98,6 +101,6 @@ public class Util
 		
 		public static Block getBlockBelow(final Block b)
         { return getBlockAt(new Vector(b.getX(), b.getY()-1, b.getZ())); }
-
+		
 		private Util() {}
 }// Util
