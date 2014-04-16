@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 import com.github.izbay.util.Util;
 
 public class Ram extends Weapon {
-
+	
 	private static Material graphic = Material.ANVIL;
 	private static Integer offset = 5;
 	private static Sound spawnSound = Sound.IRONGOLEM_DEATH;
@@ -51,8 +51,8 @@ public class Ram extends Weapon {
 					&& Util.isSolid(Util.getBlockBelow(vFrom))
 					&& !Util.isSolid(Util.getBlockBelow(vTo))
 					&& Util.isSolid(Util.getBlockBelow(Util.getBlockBelow(vTo)))) {
-				reg.alter(vFrom, Material.RAILS);
-				reg.alter(Util.getBlockBelow(vTo), Material.RAILS);
+				//reg.alter(vFrom, Material.RAILS);
+				//reg.alter(Util.getBlockBelow(vTo), Material.RAILS);
 				
 			}// if
 		}// if vehicle is Ram
@@ -73,8 +73,8 @@ public class Ram extends Weapon {
 			}
 			if (e.getBlock().getLocation().getBlock().getType().isSolid()) {
 				if (!upLoc.getBlock().getType().isSolid()) {
-					reg.alter(v, Material.RAILS);
-					reg.alter(upLoc, Material.RAILS);
+					//reg.alter(v, Material.RAILS);
+					//reg.alter(upLoc, Material.RAILS);
 				} else {
 					Double yaw = Util.toRadians(v.getYaw());
 					int sin = (int) Math.round(Math.sin(yaw));
@@ -100,7 +100,7 @@ public class Ram extends Weapon {
 								upLoc.getX(), upLoc.getY(), upLoc.getZ());
 						test = test.add(vec[i]);
 						breakSound(test);
-						reg.alter(test, Material.AIR);
+						reg.alter(SiegeEnginePlugin.getInstance(), test, Material.AIR);
 
 					}// for-loop to destroy area
 				}// else (not a slope for rails)
@@ -112,5 +112,4 @@ public class Ram extends Weapon {
 		e.setCancelled(true);
 		// TODO: Move the climb slope code to here. Take it out of collision for controllability.
 	}// click method
-
 }// ram class
