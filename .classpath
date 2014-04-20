@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/Documents/minecraft/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="/RegEngine/bin/com/github/izbay/regengine/regENgine.jar" sourcepath="/RegEngine/src/com/github/izbay/util"/>
+	<classpathentry kind="lib" path="D:/Documents/minecraft/minecraft_server.1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
