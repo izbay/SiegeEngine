@@ -48,9 +48,9 @@ public class Ram extends Weapon {
 					&& (vFrom.getX() == vTo.getX() || vFrom.getZ() == vTo
 							.getZ())
 					&& !Util.equal(vFrom, vTo)
-					&& Util.isSolid(Util.getBlockBelow(vFrom))
-					&& !Util.isSolid(Util.getBlockBelow(vTo))
-					&& Util.isSolid(Util.getBlockBelow(Util.getBlockBelow(vTo)))) {
+					&& Util.isSolid(Util.getBlockBelow(vFrom, e.getVehicle().getWorld()))
+					&& !Util.isSolid(Util.getBlockBelow(vTo, e.getVehicle().getWorld()))
+					&& Util.isSolid(Util.getBlockBelow(Util.getBlockBelow(vTo, e.getVehicle().getWorld())))) {
 				//reg.alter(vFrom, Material.RAILS);
 				//reg.alter(Util.getBlockBelow(vTo), Material.RAILS);
 				
