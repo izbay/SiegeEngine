@@ -60,6 +60,29 @@ public class Ram extends Weapon {
 		}// if vehicle is Ram
 	}// move method
 
+	public static Vector[] genTargetRegion(final Location target, final double yaw)
+	{
+		// Generate a small cone. We'll worry about multipliers and
+		// non-right angles later.
+		final Vector v = target.toVector();
+		final Double heading = Util.toRadians(yaw);
+		int sin = (int) Math.round(Math.sin(heading));
+		int cos = (int) Math.round(Math.cos(heading));
+		final Vector[] vec = {
+				v,
+				// Up Down
+				Util.add(v, 0, 1, 0),
+				Util.add(v, 0, -1, 0),
+				// Left Right
+				Util.add(v, 0, 0, -sin), Util.add(v, -cos, 0, 0),
+				Util.add(v, cos, 0, 0), Util.add(v, 0, 0, sin),
+				// Forward
+				Util.add(v, sin, 0, 0), Util.add(v, sin * 2, 0, 0),
+				Util.add(v, 0, 0, cos), Util.add(v, 0, 0, cos * 2) };
+		
+		return vec;
+	}// targetRegion()
+
 	/**
 	 * @param e The collision event forwarded from the WEO
 	 * 
@@ -68,16 +91,17 @@ public class Ram extends Weapon {
 	static void collide(VehicleBlockCollisionEvent e) {
 		// TODO: Minecart/Weapon Type differentiation.
 		if (e.getVehicle().getType() == EntityType.MINECART) {
-			Location v = e.getVehicle().getLocation();
+			Location l = e.getVehicle().getLocation();
 			Location upLoc = Util.add(e.getBlock().getLocation(), 0, 1, 0);
-			if (v.getBlock().getType().isSolid()) {
-				e.getVehicle().teleport(v.add(0, 1, 0));
+			if (l.getBlock().getType().isSolid()) {
+				e.getVehicle().teleport(l.add(0, 1, 0));
 			}
 			if (e.getBlock().getLocation().getBlock().getType().isSolid()) {
 				if (!upLoc.getBlock().getType().isSolid()) {
-					reg.alter(SiegeEnginePlugin.getInstance(), v, Material.RAILS);
+					reg.alter(SiegeEnginePlugin.getInstance(), l, Material.RAILS);
 					reg.alter(SiegeEnginePlugin.getInstance(), upLoc, Material.RAILS);
 				} else {
+					/*
 					// Generate a small cone. We'll worry about multipliers and
 					// non-right angles later.
 					Double yaw = Util.toRadians(v.getYaw());
@@ -94,24 +118,25 @@ public class Ram extends Weapon {
 							// Forward
 							new Vector(sin, 0, 0), new Vector(sin * 2, 0, 0),
 							new Vector(0, 0, cos), new Vector(0, 0, cos * 2) };
+							*/
+					
+					final Vector[] vecs = genTargetRegion(upLoc, l.getYaw());
 
 					final World world = upLoc.getWorld();
-					// TODO: Add a delay and sounds.
+					for(Vector v : vecs)
+					{ breakSound(v.toLocation(world)); }// for
+
+					/*
 					for (int i = 0; i < vec.length; i++) {
 						Location test = new Location(world,
 								upLoc.getX(), upLoc.getY(), upLoc.getZ());
-						test = test.add(vec[i]);
-						breakSound(test);
-
-//						reg.alter(SiegeEnginePlugin.getInstance(), test, Material.AIR);
-
-					}// for-loop to destroy area
+						breakSound(Util.add(test,vec[i]));
+					}// for-loop to play SFX through destruction region
+					*/
 					
-					RegenBatch.destroying(SiegeEnginePlugin.getInstance(), vec, world, 200L).alterAndRestore();
 
-					//reg.alter(SiegeEnginePlugin.getInstance(), vec, world);
-					
-					
+					// Pass off to RegEngine:
+					RegenBatch.destroying(SiegeEnginePlugin.getInstance(), vecs, world, 200L).alterAndRestore();
 				}// else (not a slope for rails)
 			}// if is solid block
 		}// if is minecart
