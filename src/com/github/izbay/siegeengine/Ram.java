@@ -67,21 +67,20 @@ public class Ram extends Weapon {
 		// TODO: Minecart/Weapon Type differentiation.
 		if (e.getVehicle().getType() == EntityType.MINECART) {
 			Location v = e.getVehicle().getLocation();
-			Location upLoc = e.getBlock().getLocation().add(0, 1, 0);
+			Location upLoc = Util.add(e.getBlock().getLocation(), 0, 1, 0);
 			if (v.getBlock().getType().isSolid()) {
 				e.getVehicle().teleport(v.add(0, 1, 0));
 			}
 			if (e.getBlock().getLocation().getBlock().getType().isSolid()) {
 				if (!upLoc.getBlock().getType().isSolid()) {
-					//reg.alter(v, Material.RAILS);
-					//reg.alter(upLoc, Material.RAILS);
+					reg.alter(SiegeEnginePlugin.getInstance(), v, Material.RAILS);
+					reg.alter(SiegeEnginePlugin.getInstance(), upLoc, Material.RAILS);
 				} else {
+					// Generate a small cone. We'll worry about multipliers and
+					// non-right angles later.
 					Double yaw = Util.toRadians(v.getYaw());
 					int sin = (int) Math.round(Math.sin(yaw));
 					int cos = (int) Math.round(Math.cos(yaw));
-
-					// Generate a small cone. We'll worry about multipliers and
-					// non-right angles later.
 					Vector[] vec = {
 							new Vector(0, 0, 0),
 							// Up Down
