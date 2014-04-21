@@ -3,6 +3,7 @@ package com.github.izbay.siegeengine;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -11,6 +12,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 
+import com.github.izbay.regengine.RegenBatch;
 import com.github.izbay.util.Util;
 
 public class Ram extends Weapon {
@@ -94,15 +96,23 @@ public class Ram extends Weapon {
 							new Vector(sin, 0, 0), new Vector(sin * 2, 0, 0),
 							new Vector(0, 0, cos), new Vector(0, 0, cos * 2) };
 
+					final World world = upLoc.getWorld();
 					// TODO: Add a delay and sounds.
 					for (int i = 0; i < vec.length; i++) {
-						Location test = new Location(upLoc.getWorld(),
+						Location test = new Location(world,
 								upLoc.getX(), upLoc.getY(), upLoc.getZ());
 						test = test.add(vec[i]);
 						breakSound(test);
-						reg.alter(SiegeEnginePlugin.getInstance(), test, Material.AIR);
+
+//						reg.alter(SiegeEnginePlugin.getInstance(), test, Material.AIR);
 
 					}// for-loop to destroy area
+					
+					RegenBatch.destroying(SiegeEnginePlugin.getInstance(), vec, world, 200L).alterAndRestore();
+
+					//reg.alter(SiegeEnginePlugin.getInstance(), vec, world);
+					
+					
 				}// else (not a slope for rails)
 			}// if is solid block
 		}// if is minecart
