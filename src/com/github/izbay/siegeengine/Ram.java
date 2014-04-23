@@ -17,6 +17,11 @@ import com.github.izbay.util.Util;
 
 public class Ram extends Weapon {
 	
+	/**
+	 * TODO: Make configurable.
+	 */
+	public static long DEFAULT_RAM_REGENERATION_DELAY = 200L;
+
 	private static Material graphic = Material.ANVIL;
 	private static Integer offset = 5;
 	private static Sound spawnSound = Sound.IRONGOLEM_DEATH;
@@ -101,25 +106,6 @@ public class Ram extends Weapon {
 					reg.alter(SiegeEnginePlugin.getInstance(), l, Material.RAILS);
 					reg.alter(SiegeEnginePlugin.getInstance(), upLoc, Material.RAILS);
 				} else {
-					/*
-					// Generate a small cone. We'll worry about multipliers and
-					// non-right angles later.
-					Double yaw = Util.toRadians(v.getYaw());
-					int sin = (int) Math.round(Math.sin(yaw));
-					int cos = (int) Math.round(Math.cos(yaw));
-					Vector[] vec = {
-							new Vector(0, 0, 0),
-							// Up Down
-							new Vector(0, 1, 0),
-							new Vector(0, -1, 0),
-							// Left Right
-							new Vector(0, 0, -sin), new Vector(-cos, 0, 0),
-							new Vector(cos, 0, 0), new Vector(0, 0, sin),
-							// Forward
-							new Vector(sin, 0, 0), new Vector(sin * 2, 0, 0),
-							new Vector(0, 0, cos), new Vector(0, 0, cos * 2) };
-							*/
-					
 					final Vector[] vecs = genTargetRegion(upLoc, l.getYaw());
 
 					final World world = upLoc.getWorld();
@@ -136,7 +122,7 @@ public class Ram extends Weapon {
 					
 
 					// Pass off to RegEngine:
-					RegenBatch.destroying(SiegeEnginePlugin.getInstance(), vecs, world, 200L).alterAndRestore();
+					RegenBatch.destroying(SiegeEnginePlugin.getInstance(), world, vecs, DEFAULT_RAM_REGENERATION_DELAY).alterAndRestore();
 				}// else (not a slope for rails)
 			}// if is solid block
 		}// if is minecart
