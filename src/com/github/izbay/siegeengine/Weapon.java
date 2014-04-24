@@ -1,13 +1,16 @@
 package com.github.izbay.siegeengine;
 
-import net.minecraft.server.v1_7_R3.EntityMinecartAbstract;
+/*import net.minecraft.server.v1_7_R3.EntityMinecartAbstract;
 import net.minecraft.server.v1_7_R3.NBTTagCompound;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftMinecart;*/
+import net.minecraft.server.v1_7_R1.EntityMinecartAbstract;
+import net.minecraft.server.v1_7_R1.NBTTagCompound;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftMinecart;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftMinecart;
 import org.bukkit.entity.Minecart;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
