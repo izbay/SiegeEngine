@@ -9,6 +9,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 
@@ -36,6 +37,7 @@ public class Ram extends Weapon {
 		Minecart minecart = (Minecart) loc.getWorld().spawnEntity(loc,
 				EntityType.MINECART);
 		setData(minecart, graphic, offset);
+		minecart.setMetadata("Custom Entity", new FixedMetadataValue(SiegeEnginePlugin.getInstance(), Weapon.types.Ram.getName()));
 		loc.getWorld().playSound(loc, spawnSound, 1, 1);
 	}// spawn method
 	

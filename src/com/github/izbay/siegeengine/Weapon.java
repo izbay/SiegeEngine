@@ -3,10 +3,10 @@ package com.github.izbay.siegeengine;
 /*import net.minecraft.server.v1_7_R3.EntityMinecartAbstract;
 import net.minecraft.server.v1_7_R3.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftMinecart;*/
-import net.minecraft.server.v1_7_R1.EntityMinecartAbstract;
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftMinecart;
+import net.minecraft.server.v1_7_R3.EntityMinecartAbstract;
+import net.minecraft.server.v1_7_R3.NBTTagCompound;
 
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftMinecart;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +20,14 @@ import com.github.izbay.regengine.RegEnginePlugin;
 
 abstract class Weapon {
 	static RegEnginePlugin reg = (RegEnginePlugin) Bukkit.getServer().getPluginManager().getPlugin("RegEngine");
-
+	static enum types { Ram ("ram");
+		private String name;
+		types(String string){
+			this.name = string;
+		}
+		public String getName(){return name;}
+	};
+	
 	//TODO: Create Wheelbarrow with (Material.SAPLING, 0, Sound.ZOMBIE_WOOD).
 
 	/** Abstract Methods */
@@ -56,7 +63,7 @@ abstract class Weapon {
 	 * @param target The cart to grab NBT data from.
 	 * @return The NBT data of the passed in cart.
 	 */
-	static private NBTTagCompound getCompound(EntityMinecartAbstract target) {
+	static public NBTTagCompound getCompound(EntityMinecartAbstract target) {
 		NBTTagCompound tag = new NBTTagCompound();
 		target.c(tag);
 		return tag;
